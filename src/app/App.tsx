@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { motion, useInView } from "motion/react";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import imgAthlete from "@/imports/LandingPagePlaymaker/84e0169ded5d607f95c1fb7fbf396bc142fb1d8b.png";
 import imgTeam from "@/imports/LandingPagePlaymaker/3fae4689d465d7bc1342dc8d3791d935bbeff0a0.png";
@@ -9,6 +10,34 @@ import imgPlaymakerLogo from "@/imports/image-1.png";
 import svgPaths from "@/imports/LandingPagePlaymaker/svg-kvntwkfud6";
 
 const LIME = "#c8f135";
+
+// Variantes de animação reutilizáveis
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12
+    }
+  }
+};
 
 function IconBrand({ paths }: { paths: string[] }) {
   return (
@@ -123,18 +152,31 @@ function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
 }
 
 function SocialProof() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const stats = [
     { value: "+300 MIL", label: "Visualizações geradas" },
     { value: "R$200 MIL", label: "Captados com pitch decks e rebranding" },
     { value: "65 MIL", label: "Contas alcançadas — em média 5x a base de seguidores" },
     { value: "+200", label: "Participantes em eventos" },
   ];
+  
   return (
-    <section className="bg-[#c8f135]">
+    <section ref={ref} className="bg-[#c8f135]">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-black/15">
+        <motion.div 
+          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-black/15"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {stats.map((s, i) => (
-            <div key={i} className="bg-[#c8f135] p-6 sm:p-8 flex flex-col gap-2">
+            <motion.div 
+              key={i} 
+              className="bg-[#c8f135] p-6 sm:p-8 flex flex-col gap-2"
+              variants={fadeInUp}
+            >
               <span
                 className="font-['Barlow_Condensed'] font-black text-black leading-none"
                 style={{ fontSize: "clamp(2.2rem, 8vw, 5rem)", letterSpacing: "0" }}
@@ -144,9 +186,9 @@ function SocialProof() {
               <span className="text-black/50 text-xs sm:text-sm font-bold tracking-widest uppercase leading-snug">
                 {s.label}
               </span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
         <div className="mt-8 border-t border-black/15 pt-5 overflow-x-auto">
           <div className="flex gap-8 sm:gap-12 items-center whitespace-nowrap min-w-0">
             <p className="text-black/60 text-xs font-bold tracking-widest uppercase shrink-0">No palco do CONJEF</p>
@@ -161,6 +203,9 @@ function SocialProof() {
 }
 
 function ClientPains() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const cards = [
     {
       icon: [svgPaths.p1aa6a600, svgPaths.p1798300],
@@ -189,9 +234,14 @@ function ClientPains() {
   ];
 
   return (
-    <section id="problemas" className="bg-[#0f0f0f] py-16 sm:py-24 md:py-32">
+    <section ref={ref} id="problemas" className="bg-[#0f0f0f] py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14">
+        <motion.div 
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
           <div>
             <p className="text-[#c8f135] text-xs font-bold tracking-[0.4em] uppercase mb-3">Reconhece Algum Desses?</p>
             <h2
@@ -206,10 +256,19 @@ function ClientPains() {
           <p className="text-white/40 text-base sm:text-lg leading-relaxed max-w-sm md:max-w-xs shrink-0">
             Mapeamos as travas mais comuns em negócios esportivos locais e construímos soluções específicas para cada uma delas.
           </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10">
+        </motion.div>
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {cards.map((c, i) => (
-            <div key={i} className="bg-[#0f0f0f] p-8 sm:p-10 flex flex-col gap-6">
+            <motion.div 
+              key={i} 
+              className="bg-[#0f0f0f] p-8 sm:p-10 flex flex-col gap-6"
+              variants={fadeInUp}
+            >
               <div className="opacity-75">
                 <IconBrand paths={c.icon} />
               </div>
@@ -220,10 +279,16 @@ function ClientPains() {
                 {c.title}
               </h3>
               <p className="text-white/45 text-base sm:text-lg leading-relaxed">{c.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
-        <div className="mt-10 sm:mt-12 border border-[#c8f135]/30 bg-[#c8f135]/5 p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+        </motion.div>
+        <motion.div 
+          className="mt-10 sm:mt-12 border border-[#c8f135]/30 bg-[#c8f135]/5 p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 0.6 }}
+        >
           <p className="text-white text-base sm:text-xl leading-snug flex-1">
             <span className="font-semibold">A PLAYMAKER resolve exatamente isso.</span>{" "}
             <span className="text-white/80">Nossa metodologia transforma esses obstáculos em vantagens competitivas reais pro seu negócio.</span>
@@ -231,13 +296,16 @@ function ClientPains() {
           <a href="#agendar" className="inline-flex items-center gap-2 bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-6 py-4 shrink-0 hover:bg-[#d8ff40] transition-colors">
             Quero Resolver <ArrowRight size={16} />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function Services() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const services = [
     {
       num: "01",
@@ -280,9 +348,14 @@ function Services() {
   ];
 
   return (
-    <section id="servicos" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section ref={ref} id="servicos" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14">
+        <motion.div 
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
           <div>
             <p className="text-[#c8f135] text-xs font-bold tracking-[0.4em] uppercase mb-3">O Que Fazemos</p>
             <h2
@@ -297,10 +370,19 @@ function Services() {
           <p className="text-white/40 text-base sm:text-lg leading-relaxed max-w-sm md:max-w-xs shrink-0">
             Do planejamento estratégico à execução criativa, oferecemos soluções completas para todo o ecossistema esportivo.
           </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
+        </motion.div>
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {services.map((s) => (
-            <div key={s.num} className="bg-[#0a0a0a] p-6 sm:p-8 flex flex-col gap-4">
+            <motion.div 
+              key={s.num} 
+              className="bg-[#0a0a0a] p-6 sm:p-8 flex flex-col gap-4"
+              variants={fadeInUp}
+            >
               <div className="flex items-start justify-between">
                 <span className="text-[#c8f135]/55 text-sm font-mono font-bold tracking-widest">{s.num}</span>
                 {s.badge && (
@@ -323,15 +405,18 @@ function Services() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function WorkSteps() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const steps = [
     {
       num: "01",
@@ -356,9 +441,14 @@ function WorkSteps() {
   ];
 
   return (
-    <section className="bg-[#c8f135] py-16 sm:py-24 md:py-32">
+    <section ref={ref} className="bg-[#c8f135] py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14">
+        <motion.div 
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
           <div>
             <p className="text-black/40 text-xs font-bold tracking-[0.4em] uppercase mb-3">Metodologia Playmaker</p>
             <h2
@@ -376,10 +466,19 @@ function WorkSteps() {
               Iniciar Diagnóstico <ArrowRight size={16} />
             </a>
           </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-black/15">
+        </motion.div>
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-black/15"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {steps.map((s) => (
-            <div key={s.num} className="bg-[#c8f135] p-6 sm:p-8 flex flex-col gap-3">
+            <motion.div 
+              key={s.num} 
+              className="bg-[#c8f135] p-6 sm:p-8 flex flex-col gap-3"
+              variants={fadeInUp}
+            >
               <span
                 className="font-['Barlow_Condensed'] font-black text-black/10 leading-none select-none"
                 style={{ fontSize: "clamp(4rem, 12vw, 8rem)", letterSpacing: "-0.05em" }}
@@ -393,21 +492,29 @@ function WorkSteps() {
                 {s.title}
               </h3>
               <p className="text-black/55 text-sm sm:text-base leading-relaxed">{s.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function About() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section id="sobre" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section ref={ref} id="sobre" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: image + stats */}
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+          >
             <div className="relative overflow-hidden rounded-sm" style={{ paddingTop: "110%" }}>
               <img
                 src={imgTeam}
@@ -436,9 +543,15 @@ function About() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
           {/* Right: text */}
-          <div className="flex flex-col gap-6">
+          <motion.div 
+            className="flex flex-col gap-6"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+            transition={{ delay: 0.2 }}
+          >
             <p className="text-[#c8f135] text-xs font-bold tracking-[0.4em] uppercase">Sobre a PLAYMAKER</p>
             <h2
               className="font-['Barlow_Condensed'] font-black uppercase text-white leading-none"
@@ -475,7 +588,7 @@ function About() {
             <a href="#agendar" className="inline-flex items-center gap-2 bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-8 py-4 w-fit hover:bg-[#d8ff40] transition-colors">
               INICIAR DIAGNÓSTICO <ArrowRight size={16} />
             </a>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -483,6 +596,8 @@ function About() {
 }
 
 function Booking() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -509,11 +624,16 @@ function Booking() {
   };
 
   return (
-    <section id="agendar" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section ref={ref} id="agendar" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: description */}
-          <div className="flex flex-col gap-6">
+          <motion.div 
+            className="flex flex-col gap-6"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+          >
             <p className="text-[#c8f135] text-xs font-bold tracking-[0.4em] uppercase">Vamos Jogar Juntos</p>
             <h2
               className="font-['Barlow_Condensed'] font-black uppercase text-white leading-none"
@@ -557,9 +677,16 @@ function Booking() {
                 Horários disponíveis de seg a sex, 7h–22h
               </div>
             </div>
-          </div>
+          </motion.div>
           {/* Right: form */}
-          <form onSubmit={handleSubmit} className="bg-[#0f0f0f] border border-white/10 p-6 sm:p-10 flex flex-col gap-6">
+          <motion.form 
+            onSubmit={handleSubmit} 
+            className="bg-[#0f0f0f] border border-white/10 p-6 sm:p-10 flex flex-col gap-6"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+            transition={{ delay: 0.2 }}
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-2">
                 <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Nome *</label>
@@ -648,7 +775,7 @@ function Booking() {
             {submitStatus === 'idle' && (
               <p className="text-white/20 text-xs text-center">Confirmaremos em até 12h no e-mail informado.</p>
             )}
-          </form>
+          </motion.form>
         </div>
       </div>
     </section>
@@ -656,7 +783,10 @@ function Booking() {
 }
 
 function FAQ() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [open, setOpen] = useState<number | null>(null);
+  
   const items = [
     {
       question: "A Playmaker atende negócios esportivos pequenos e locais?",
@@ -681,10 +811,15 @@ function FAQ() {
   ];
 
   return (
-    <section id="faq" className="bg-[#0f0f0f] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section ref={ref} id="faq" className="bg-[#0f0f0f] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-16 items-start">
-          <div className="flex flex-col gap-6">
+          <motion.div 
+            className="flex flex-col gap-6"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+          >
             <p className="text-[#c8f135] text-xs font-bold tracking-[0.4em] uppercase">Dúvidas Frequentes</p>
             <h2
               className="font-['Barlow_Condensed'] font-black uppercase text-white leading-none"
@@ -698,10 +833,19 @@ function FAQ() {
             <a href="#agendar" className="inline-flex items-center gap-2 border border-white/25 text-white text-sm font-bold tracking-widest uppercase px-6 py-4 w-fit hover:border-white/50 transition-colors">
               TIRAR DÚVIDAS <ArrowRight size={16} />
             </a>
-          </div>
-          <div className="flex flex-col gap-0.5">
+          </motion.div>
+          <motion.div 
+            className="flex flex-col gap-0.5"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             {items.map((item, i) => (
-              <div key={i} className="bg-[#0a0a0a] border border-white/10">
+              <motion.div 
+                key={i} 
+                className="bg-[#0a0a0a] border border-white/10"
+                variants={fadeInUp}
+              >
                 <button
                   onClick={() => setOpen(open === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-5 sm:px-8 py-5 sm:py-6 text-left"
@@ -718,9 +862,9 @@ function FAQ() {
                     {item.answer}
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
