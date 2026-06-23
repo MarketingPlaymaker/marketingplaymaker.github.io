@@ -711,6 +711,15 @@ export default function App() {
     return () => observer.disconnect();
   }, []);
 
+  // Add favicon
+  useEffect(() => {
+    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/png';
+    link.rel = 'icon';
+    link.href = imgPlaymakerLogo;
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-['Inter',sans-serif]">
       <Navbar heroVisible={heroVisible} />
