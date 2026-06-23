@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import imgAthlete from "@/imports/LandingPagePlaymaker/84e0169ded5d607f95c1fb7fbf396bc142fb1d8b.png";
 import imgTeam from "@/imports/LandingPagePlaymaker/3fae4689d465d7bc1342dc8d3791d935bbeff0a0.png";
 import imgLogo from "@/imports/LandingPagePlaymaker/f038cc64538778a2884126d4e4dd6a92967de404.png";
+import imgPlaymakerLogo from "@/imports/image-1.png";
 import svgPaths from "@/imports/LandingPagePlaymaker/svg-kvntwkfud6";
 
 const LIME = "#c8f135";
@@ -24,20 +25,35 @@ function IconBrand({ paths }: { paths: string[] }) {
   );
 }
 
-function Navbar() {
+function Navbar({ heroVisible }: { heroVisible: boolean }) {
   const [open, setOpen] = useState(false);
+
+  const ctaBase = "hidden md:flex items-center gap-2 text-sm font-bold tracking-widest uppercase px-6 py-3 transition-colors duration-300";
+  const ctaStyle = heroVisible
+    ? "border border-white/25 text-white hover:border-white/50"
+    : "bg-[#c8f135] text-black hover:bg-[#d8ff40]";
+
   return (
     <header className="bg-[#0a0a0a]/90 backdrop-blur-sm sticky top-0 z-50 border-b border-white/10">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16 sm:h-20">
-        <img src={imgLogo} alt="Playmaker" className="h-9 sm:h-12 w-auto object-contain" />
-        <nav className="hidden md:flex items-center gap-10">
-          {["Serviços", "Sobre", "Contato", "FAQ"].map((l) => (
-            <a key={l} href="#" className="text-white/60 hover:text-white text-sm font-medium tracking-widest uppercase transition-colors">
-              {l}
-            </a>
-          ))}
+        <a href="#" aria-label="Ir ao topo">
+          <img src={imgLogo} alt="Playmaker" className="h-9 sm:h-12 w-auto object-contain" />
+        </a>
+        <nav className="flex flex-wrap gap-6 sm:gap-10">
+          <a href="#servicos" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+            Serviços
+          </a>
+          <a href="#sobre" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+            Sobre
+          </a>
+          <a href="#agendar" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+            Contato
+          </a>
+          <a href="#faq" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+            FAQ
+          </a>
         </nav>
-        <a href="#agendar" className="hidden md:flex items-center gap-2 bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-6 py-3 hover:bg-[#d8ff40] transition-colors">
+        <a href="#agendar" className={`${ctaBase} ${ctaStyle}`}>
           Agendar Reunião <ArrowRight size={16} />
         </a>
         <button onClick={() => setOpen(!open)} className="md:hidden text-white p-2">
@@ -46,11 +62,18 @@ function Navbar() {
       </div>
       {open && (
         <div className="md:hidden bg-[#0a0a0a] border-t border-white/10 px-5 py-6 flex flex-col gap-5">
-          {["Serviços", "Sobre", "Contato", "FAQ"].map((l) => (
-            <a key={l} href="#" onClick={() => setOpen(false)} className="text-white/60 text-base font-medium tracking-widest uppercase">
-              {l}
-            </a>
-          ))}
+          <a href="#servicos" onClick={() => setOpen(false)} className="text-white/60 text-base font-medium tracking-widest uppercase">
+            Serviços
+          </a>
+          <a href="#sobre" onClick={() => setOpen(false)} className="text-white/60 text-base font-medium tracking-widest uppercase">
+            Sobre
+          </a>
+          <a href="#agendar" onClick={() => setOpen(false)} className="text-white/60 text-base font-medium tracking-widest uppercase">
+            Contato
+          </a>
+          <a href="#faq" onClick={() => setOpen(false)} className="text-white/60 text-base font-medium tracking-widest uppercase">
+            FAQ
+          </a>
           <a href="#agendar" onClick={() => setOpen(false)} className="inline-flex items-center gap-2 bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-6 py-3 w-fit">
             Agendar Reunião <ArrowRight size={16} />
           </a>
@@ -60,13 +83,12 @@ function Navbar() {
   );
 }
 
-function Hero() {
+function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement> }) {
   return (
-    <section className="relative bg-[#0a0a0a] min-h-[85vh] flex flex-col justify-end overflow-hidden">
+    <section ref={sectionRef} className="relative bg-[#0a0a0a] min-h-[85vh] flex flex-col justify-end overflow-hidden">
       <div className="absolute inset-0">
         <img src={imgAthlete} alt="" className="w-full h-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent" />
       </div>
       <div className="absolute right-0 top-1/3 h-1.5 w-2 bg-[#c8f135] hidden sm:block" />
       <div className="relative z-10 max-w-screen-xl mx-auto px-5 sm:px-8 pb-12 sm:pb-20 pt-24 w-full">
@@ -113,7 +135,7 @@ function SocialProof() {
             <div key={i} className="bg-[#c8f135] p-6 sm:p-8 flex flex-col gap-2">
               <span
                 className="font-['Barlow_Condensed'] font-black text-black leading-none"
-                style={{ fontSize: "clamp(2.2rem, 8vw, 5rem)", letterSpacing: "-0.05em" }}
+                style={{ fontSize: "clamp(2.2rem, 8vw, 5rem)", letterSpacing: "0" }}
               >
                 {s.value}
               </span>
@@ -379,7 +401,7 @@ function WorkSteps() {
 
 function About() {
   return (
-    <section className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section id="sobre" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: image + stats */}
@@ -391,9 +413,14 @@ function About() {
                 className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[16px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent" />
-              <p className="absolute bottom-6 left-6 right-6 font-['Barlow_Condensed'] font-black uppercase text-white text-3xl sm:text-4xl tracking-tight drop-shadow-lg">
-                PLAYMAKER
-              </p>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img 
+                  src={imgPlaymakerLogo} 
+                  alt="Playmaker Logo" 
+                  className="object-contain drop-shadow-2xl" 
+                  style={{ maxWidth: "60%", maxHeight: "60%" }} 
+                />
+              </div>
             </div>
             <div className="mt-4 bg-[#c8f135] grid grid-cols-3">
               {[
@@ -473,20 +500,35 @@ function Booking() {
               Uma conversa de 40 minutos pode mudar completamente a trajetória da sua marca no esporte. Sem roteiro de venda, sem enrolação — só estratégia direto com quem vai tocar o seu projeto.
             </p>
             <div className="flex flex-col gap-4 mt-2">
-              {[
-                { icon: "clock", text: "40 minutos de diagnóstico gratuito" },
-                { icon: "user", text: "Reunião com nosso Head de Estratégia" },
-                { icon: "target", text: "Plano de ação personalizado ao final" },
-                { icon: "cal", text: "Horários disponíveis de seg a sex, 7h–22h" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3 text-white/55 text-sm sm:text-base">
-                  <svg width="22" height="22" viewBox="0 0 26 26" fill="none" className="shrink-0">
-                    <circle cx="13" cy="13" r="11" stroke={LIME} strokeWidth="2" />
-                    <path d="M13 8v5l3 3" stroke={LIME} strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                  {item.text}
-                </div>
-              ))}
+              <div className="flex items-center gap-3 text-white/55 text-sm sm:text-base">
+                <svg width="22" height="22" viewBox="0 0 26 26" fill="none" className="shrink-0">
+                  <circle cx="13" cy="13" r="11" stroke={LIME} strokeWidth="2" />
+                  <path d="M13 8v5l3 3" stroke={LIME} strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                40 minutos de diagnóstico gratuito
+              </div>
+              <div className="flex items-center gap-3 text-white/55 text-sm sm:text-base">
+                <svg width="22" height="22" viewBox="0 0 26 26" fill="none" className="shrink-0">
+                  <circle cx="13" cy="13" r="11" stroke={LIME} strokeWidth="2" />
+                  <path d="M13 7c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zM7 21c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke={LIME} strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                Reunião com nosso Head de Estratégia
+              </div>
+              <div className="flex items-center gap-3 text-white/55 text-sm sm:text-base">
+                <svg width="22" height="22" viewBox="0 0 26 26" fill="none" className="shrink-0">
+                  <circle cx="13" cy="13" r="11" stroke={LIME} strokeWidth="2" />
+                  <circle cx="13" cy="13" r="3" stroke={LIME} strokeWidth="2" />
+                  <path d="M13 2v4M13 20v4M24 13h-4M6 13H2M20.5 5.5l-2.8 2.8M8.3 17.7l-2.8 2.8M20.5 20.5l-2.8-2.8M8.3 8.3L5.5 5.5" stroke={LIME} strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                Plano de ação personalizado ao final
+              </div>
+              <div className="flex items-center gap-3 text-white/55 text-sm sm:text-base">
+                <svg width="22" height="22" viewBox="0 0 26 26" fill="none" className="shrink-0">
+                  <rect x="4" y="6" width="18" height="16" rx="2" stroke={LIME} strokeWidth="2" />
+                  <path d="M4 11h18M9 3v6M17 3v6" stroke={LIME} strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                Horários disponíveis de seg a sex, 7h–22h
+              </div>
             </div>
           </div>
           {/* Right: form */}
@@ -558,15 +600,30 @@ function Booking() {
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
   const items = [
-    "A Playmaker atende negócios esportivos pequenos e locais?",
-    "Como medir o retorno do marketing pra minha academia ou escolinha?",
-    "Qual é o prazo mínimo de contrato com a Playmaker?",
-    "A Playmaker atende fora do Rio de Janeiro?",
-    "Preciso já ter uma marca definida pra contratar a Playmaker?",
+    {
+      question: "A Playmaker atende negócios esportivos pequenos e locais?",
+      answer: "Sim. Nosso foco principal é justamente academias, escolinhas, arenas e negócios esportivos locais — não só clubes grandes. Aplicamos a mesma metodologia de marca usada por organizações maiores, adaptada à realidade e ao orçamento de quem está construindo um negócio esportivo na sua região."
+    },
+    {
+      question: "Como medir o retorno do marketing pra minha academia ou escolinha?",
+      answer: "Acompanhamos indicadores como novos alunos, retenção, engajamento nas redes e percepção de marca na região. Cada relatório mostra o que mudou desde o diagnóstico inicial — sem achismo, com dados que justificam cada ação."
+    },
+    {
+      question: "Qual é o prazo mínimo de contrato com a Playmaker?",
+      answer: "Trabalhamos com ciclos mensais, sem fidelidade longa obrigatória. O método é pensado pra mostrar resultado e justificar a continuidade — não pra prender o cliente num contrato."
+    },
+    {
+      question: "A Playmaker atende fora do Rio de Janeiro?",
+      answer: "Sim. Atendemos negócios esportivos em todo o Brasil de forma remota. No Rio de Janeiro e região, também fazemos reuniões e visitas presenciais quando o projeto pede."
+    },
+    {
+      question: "Preciso já ter uma marca definida pra contratar a Playmaker?",
+      answer: "Não. Boa parte dos nossos projetos começa exatamente nesse ponto — sem identidade clara ainda. O diagnóstico inicial serve pra isso: entender onde seu negócio está hoje e construir o posicionamento do zero, se for o caso."
+    },
   ];
 
   return (
-    <section className="bg-[#0f0f0f] border-t border-white/10 py-16 sm:py-24 md:py-32">
+    <section id="faq" className="bg-[#0f0f0f] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-16 items-start">
           <div className="flex flex-col gap-6">
@@ -585,13 +642,13 @@ function FAQ() {
             </a>
           </div>
           <div className="flex flex-col gap-0.5">
-            {items.map((q, i) => (
+            {items.map((item, i) => (
               <div key={i} className="bg-[#0a0a0a] border border-white/10">
                 <button
                   onClick={() => setOpen(open === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-5 sm:px-8 py-5 sm:py-6 text-left"
                 >
-                  <span className="text-white/80 font-semibold text-sm sm:text-base leading-snug">{q}</span>
+                  <span className="text-white/80 font-semibold text-sm sm:text-base leading-snug">{item.question}</span>
                   {open === i ? (
                     <ChevronUp size={22} className="text-[#c8f135] shrink-0" />
                   ) : (
@@ -600,7 +657,7 @@ function FAQ() {
                 </button>
                 {open === i && (
                   <div className="px-5 sm:px-8 pb-5 sm:pb-6 text-white/40 text-sm sm:text-base leading-relaxed border-t border-white/10 pt-4">
-                    Entre em contato com a nossa equipe para tirar essa dúvida em detalhes — cada projeto tem suas próprias características e faremos um diagnóstico personalizado para você.
+                    {item.answer}
                   </div>
                 )}
               </div>
@@ -627,7 +684,12 @@ function Footer() {
               </a>
             ))}
           </nav>
-          <p className="text-white/20 text-xs whitespace-nowrap">© 2026 PLAYMAKER. Todos os direitos reservados.</p>
+          <div className="flex flex-col items-end gap-1">
+            <p className="text-white/20 text-xs whitespace-nowrap">© 2026 PLAYMAKER. Todos os direitos reservados.</p>
+            <a href="mailto:marketingplaymaker1@gmail.com" className="text-white/30 text-xs hover:text-[#c8f135] transition-colors">
+              marketingplaymaker1@gmail.com
+            </a>
+          </div>
         </div>
       </div>
     </footer>
@@ -635,10 +697,24 @@ function Footer() {
 }
 
 export default function App() {
+  const heroRef = useRef<HTMLElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-['Inter',sans-serif]">
-      <Navbar />
-      <Hero />
+      <Navbar heroVisible={heroVisible} />
+      <Hero sectionRef={heroRef} />
       <SocialProof />
       <ClientPains />
       <Services />
