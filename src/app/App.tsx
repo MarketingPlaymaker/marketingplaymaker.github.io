@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import emailjs from '@emailjs/browser';
+import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import imgAthlete from "@/imports/LandingPagePlaymaker/84e0169ded5d607f95c1fb7fbf396bc142fb1d8b.png";
 import imgTeam from "@/imports/LandingPagePlaymaker/3fae4689d465d7bc1342dc8d3791d935bbeff0a0.png";
 import imgLogo from "@/imports/LandingPagePlaymaker/f038cc64538778a2884126d4e4dd6a92967de404.png";
@@ -481,6 +483,31 @@ function About() {
 }
 
 function Booking() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      await emailjs.sendForm(
+        'service_5m366v9',
+        'template_27p9c6k',
+        e.currentTarget,
+        'yL5w4mmVv94Ocl0Tc'
+      );
+      setSubmitStatus('success');
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Erro ao enviar:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="agendar" className="bg-[#0a0a0a] border-t border-white/10 py-16 sm:py-24 md:py-32">
       <div className="max-w-screen-xl mx-auto px-5 sm:px-8">
@@ -532,22 +559,26 @@ function Booking() {
             </div>
           </div>
           {/* Right: form */}
-          <div className="bg-[#0f0f0f] border border-white/10 p-6 sm:p-10 flex flex-col gap-6">
+          <form onSubmit={handleSubmit} className="bg-[#0f0f0f] border border-white/10 p-6 sm:p-10 flex flex-col gap-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-2">
                 <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Nome *</label>
                 <input
                   type="text"
+                  name="user_name"
+                  required
                   placeholder="Seu nome completo"
-                  className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
+                  className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-white/35 text-xs font-bold tracking-widest uppercase">E-mail *</label>
                 <input
                   type="email"
+                  name="user_email"
+                  required
                   placeholder="seu@email.com"
-                  className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
+                  className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
                 />
               </div>
             </div>
@@ -555,13 +586,18 @@ function Booking() {
               <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Organização</label>
               <input
                 type="text"
+                name="organization"
                 placeholder="Nome da organização"
-                className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
+                className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Serviço de Interesse *</label>
-              <select className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full outline-none focus:border-[#c8f135]/40 transition-colors appearance-none">
+              <select 
+                name="service" 
+                required
+                className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full outline-none focus:border-[#c8f135]/40 transition-colors appearance-none"
+              >
                 <option value="">Selecione um serviço</option>
                 <option>Estratégia de Marca</option>
                 <option>Marketing Esportivo</option>
@@ -575,22 +611,44 @@ function Booking() {
               <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Data Preferida</label>
               <input
                 type="date"
-                className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full outline-none focus:border-[#c8f135]/40 transition-colors"
+                name="preferred_date"
+                className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full outline-none focus:border-[#c8f135]/40 transition-colors"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-white/35 text-xs font-bold tracking-widest uppercase">Contexto do Projeto</label>
               <textarea
+                name="message"
                 rows={4}
                 placeholder="Descreva brevemente seu objetivo..."
-                className="bg-[#0a0a0a] border border-white/10 text-white/20 text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors resize-none"
+                className="bg-[#0a0a0a] border border-white/10 text-white text-base px-5 py-4 w-full placeholder-white/20 outline-none focus:border-[#c8f135]/40 transition-colors resize-none"
               />
             </div>
-            <button className="bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-6 py-5 w-full flex items-center justify-center gap-2 hover:bg-[#d8ff40] transition-colors">
-              Solicitar Reunião <ArrowRight size={18} />
+            
+            {submitStatus === 'success' && (
+              <div className="bg-[#c8f135]/10 border border-[#c8f135]/30 text-[#c8f135] text-sm px-5 py-3 text-center">
+                ✓ Reunião agendada com sucesso! Confirmaremos em até 12h.
+              </div>
+            )}
+            
+            {submitStatus === 'error' && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-5 py-3 text-center">
+                ✗ Erro ao enviar. Tente novamente ou entre em contato por email.
+              </div>
+            )}
+
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-[#c8f135] text-black text-sm font-bold tracking-widest uppercase px-6 py-5 w-full flex items-center justify-center gap-2 hover:bg-[#d8ff40] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Enviando...' : 'Solicitar Reunião'} <ArrowRight size={18} />
             </button>
-            <p className="text-white/20 text-xs text-center">Confirmaremos em até 12h no e-mail informado.</p>
-          </div>
+            
+            {submitStatus === 'idle' && (
+              <p className="text-white/20 text-xs text-center">Confirmaremos em até 12h no e-mail informado.</p>
+            )}
+          </form>
         </div>
       </div>
     </section>
