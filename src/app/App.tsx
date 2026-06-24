@@ -70,17 +70,17 @@ function Navbar({ heroVisible }: { heroVisible: boolean }) {
         <a href="#" aria-label="Ir ao topo">
           <img src={imgLogo} alt="Playmaker" className="h-9 sm:h-12 w-auto object-contain" />
         </a>
-        <nav className="flex flex-wrap gap-6 sm:gap-10">
-          <a href="#servicos" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+        <nav className="hidden md:flex items-center gap-10">
+          <a href="#servicos" className="text-white/60 hover:text-white text-sm font-medium tracking-widest uppercase transition-colors">
             Serviços
           </a>
-          <a href="#sobre" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+          <a href="#sobre" className="text-white/60 hover:text-white text-sm font-medium tracking-widest uppercase transition-colors">
             Sobre
           </a>
-          <a href="#agendar" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+          <a href="#agendar" className="text-white/60 hover:text-white text-sm font-medium tracking-widest uppercase transition-colors">
             Contato
           </a>
-          <a href="#faq" className="text-white/30 text-sm tracking-widest uppercase hover:text-white/60 transition-colors">
+          <a href="#faq" className="text-white/60 hover:text-white text-sm font-medium tracking-widest uppercase transition-colors">
             FAQ
           </a>
         </nav>
