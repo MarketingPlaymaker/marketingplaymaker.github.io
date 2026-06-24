@@ -1,0 +1,36 @@
+# Robots.txt - Playmaker Marketing Esportivo
+# Atualizado em: 24/06/2026
+
+# Permitir todos os crawlers
+User-agent: *
+Allow: /
+
+# Bloquear apenas arquivos administrativos (se houver)
+Disallow: /admin/
+Disallow: /api/
+
+# Velocidade de crawling (opcional - evita sobrecarga)
+Crawl-delay: 1
+
+# Localização do Sitemap
+Sitemap: https://marketingplaymaker.com.br/sitemap.xml
+
+# Crawlers específicos do Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Crawlers de redes sociais
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
