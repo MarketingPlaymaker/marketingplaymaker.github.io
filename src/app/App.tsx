@@ -913,6 +913,27 @@ export default function App() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const script1 = document.createElement("script");
+    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-ERLZ1DH2V0";
+    script1.async = true;
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement("script");
+    script2.text = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ERLZ1DH2V0');
+    `;
+    document.head.appendChild(script2);
+
+    return () => {
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
+    };
+  }, []);
+
   // Add favicon
   useEffect(() => {
     const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
