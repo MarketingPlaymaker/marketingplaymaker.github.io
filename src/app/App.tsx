@@ -7,6 +7,7 @@ import imgAthlete from "@/imports/LandingPagePlaymaker/84e0169ded5d607f95c1fb7fb
 import imgTeam from "@/imports/LandingPagePlaymaker/3fae4689d465d7bc1342dc8d3791d935bbeff0a0.png";
 import imgLogo from "@/imports/LandingPagePlaymaker/f038cc64538778a2884126d4e4dd6a92967de404.png";
 import imgPlaymakerLogo from "@/imports/image-1.png";
+import imgFavicon from "@/imports/Playmaker_Logo_Preta_Fundo_Branca.png";
 import svgPaths from "@/imports/LandingPagePlaymaker/svg-kvntwkfud6";
 
 const LIME = "#c8f135";
@@ -936,11 +937,17 @@ export default function App() {
 
   // Add favicon
   useEffect(() => {
-    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/png';
-    link.rel = 'icon';
-    link.href = imgPlaymakerLogo;
-    document.head.appendChild(link);
+    const setFavicon = (rel: string, href: string) => {
+      const existing = document.querySelector(`link[rel='${rel}']`);
+      const link = existing || document.createElement('link');
+      (link as HTMLLinkElement).type = 'image/png';
+      (link as HTMLLinkElement).rel = rel;
+      (link as HTMLLinkElement).href = href;
+      if (!existing) document.head.appendChild(link);
+    };
+    setFavicon('icon', imgFavicon);
+    setFavicon('shortcut icon', imgFavicon);
+    setFavicon('apple-touch-icon', imgFavicon);
   }, []);
 
   return (
