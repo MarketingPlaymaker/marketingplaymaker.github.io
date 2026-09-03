@@ -14,6 +14,227 @@ const LIME = "#c8f135";
 
 // ─── Translations ─────────────────────────────────────────────────────────────
 const translations = {
+  ptBR: {
+    nav: {
+      services: "Serviços",
+      about: "Sobre",
+      contact: "Contato",
+      faq: "FAQ",
+      cta: "Agendar Reunião",
+      ariaTop: "Ir ao topo",
+    },
+    hero: {
+      tag: "PLAYMAKER: Agência de Marketing Esportivo",
+      heading1: "Você entrega.",
+      heading2: "Sua marca",
+      headingHighlight: "não",
+      heading3: "aparece.",
+      sub: "Transformamos academias, arenas e negócios esportivos em marcas reconhecidas e confiáveis. Daquelas que o mercado paga mais.",
+      cta1: "Agendar Reunião",
+      cta2: "Nossos Serviços",
+    },
+    proof: {
+      stats: [
+        { value: "+300MIL", label: "Visualizações geradas" },
+        { value: "R$200MIL", label: "Captados com pitch decks e rebranding" },
+        { value: "65MIL", label: "Contas alcançadas — média 5× a base de seguidores" },
+        { value: "+200", label: "Participantes em eventos" },
+      ],
+      stageLabel: "No palco do CONJEF",
+    },
+    pains: {
+      tag: "Você se Identifica?",
+      heading: ["OS PROBLEMAS", "QUE", "TRAVAM SEU CRESCIMENTO."],
+      headingHighlight: "TRAVAM",
+      sub: "Mapeamos os gargalos mais comuns em negócios esportivos locais e construímos soluções específicas para cada um deles.",
+      cards: [
+        {
+          title: "Boa estrutura, marca amadora",
+          desc: "A operação funciona, mas a identidade visual e a comunicação ainda parecem improvisadas. Isso custa credibilidade na hora de negociar preço.",
+        },
+        {
+          title: "Alunos ficam, novos não chegam",
+          desc: "Sem um posicionamento forte, quem decide entre você e o concorrente é o preço. Isso te impede de cobrar mais.",
+        },
+        {
+          title: "Eventos que não lotam",
+          desc: "Tudo pronto para o dia de jogo, a competição ou o campeonato. O que falta é o engajamento do público.",
+        },
+        {
+          title: "Conteúdo igual ao da concorrência",
+          desc: "Posts genéricos que não mostram o que torna seu negócio diferente — e por isso as pessoas apenas rolam a tela.",
+        },
+      ],
+      bannerBold: "A PLAYMAKER resolve exatamente isso.",
+      bannerText: " Nossa metodologia transforma esses obstáculos em vantagens competitivas reais para o seu negócio.",
+      bannerCta: "Quero Resolver Isso",
+    },
+    services: {
+      tag: "O Que Fazemos",
+      heading: ["SOLUÇÕES QUE", "TRANSFORMAM", "SUA MARCA"],
+      headingHighlight: "TRANSFORMAM",
+      sub: "Do planejamento estratégico à execução criativa, oferecemos soluções completas para todo o ecossistema esportivo.",
+      badge: "MAIS ESCOLHIDO",
+      items: [
+        {
+          num: "01",
+          title: "Estratégia de Marca",
+          desc: "Posicionamento e identidade que fazem sua academia, ginásio ou arena ser referência — e não só mais uma opção na região.",
+          tags: ["Branding", "Posicionamento", "Identidade Visual"],
+          featured: true,
+        },
+        {
+          num: "02",
+          title: "Marketing Esportivo",
+          desc: "Estratégias específicas para atrair e reter alunos, clientes e parcerias — pensadas para a realidade de quem opera no esporte local.",
+          tags: ["Aquisição", "Retenção", "Parcerias e Patrocínios"],
+        },
+        {
+          num: "03",
+          title: "Ativação de Eventos",
+          desc: "Planejamento e divulgação para que dias de jogo, torneios internos ou aberturas de temporada lotem — e criem o hábito de voltar.",
+          tags: ["Eventos", "Experiência", "B2B & B2C"],
+        },
+        {
+          num: "04",
+          title: "Campanhas Digitais",
+          desc: "Conteúdo que para o scroll de quem mora ou treina na sua região — e coloca seu negócio no topo da memória local.",
+          tags: ["Social Media", "Performance", "Influenciadores"],
+        },
+        {
+          num: "05",
+          title: "Comunidade e Pertencimento",
+          desc: "Rituais, conteúdo e ações que fazem alunos e clientes sentirem que fazem parte de algo — e não só consomem um serviço.",
+          tags: ["Comunidade", "Engajamento"],
+        },
+        {
+          num: "06",
+          title: "Produção de Conteúdo",
+          desc: "Fotos, vídeos e peças que mostram a rotina, a estrutura e os bastidores do seu negócio com qualidade profissional.",
+          tags: ["Mídia", "Storytelling"],
+        },
+      ],
+    },
+    steps: {
+      tag: "Metodologia Playmaker",
+      heading: ["ETAPAS DO", "NOSSO PROCESSO."],
+      sub: "O mesmo processo que já transformou 1.500 visualizações em 275 mil. Trabalho baseado em Estudo e Estratégia. Sem achismos.",
+      cta: "Iniciar Diagnóstico",
+      items: [
+        {
+          num: "01",
+          title: "Diagnóstico",
+          desc: "Mergulhamos fundo no seu contexto: objetivos de negócio, público, cenário competitivo e oportunidades no ecossistema esportivo.",
+        },
+        {
+          num: "02",
+          title: "Estratégia",
+          desc: "Desenvolvemos um plano sob medida com metas claras, canais prioritários, investimento estimado e indicadores de sucesso.",
+        },
+        {
+          num: "03",
+          title: "Execução",
+          desc: "Colocamos o plano em campo — da criação ao relacionamento com parceiros locais e a sua comunidade.",
+        },
+        {
+          num: "04",
+          title: "Mensuração e Reajuste",
+          desc: "Avaliamos os resultados e reajustamos o plano com base neles. Esse ciclo se repete todo mês — sempre mais afiado para o próximo diagnóstico.",
+        },
+      ],
+    },
+    about: {
+      tag: "Sobre a PLAYMAKER",
+      heading: ["ESTRATÉGIA", "É O NOSSO", "ESPORTE."],
+      stats: [
+        { val: "2026", label: "Fundação" },
+        { val: "+10", label: "Projetos" },
+        { val: "5", label: "Serviços" },
+      ],
+      paras: [
+        "A Playmaker nasceu em 2026, no Rio de Janeiro, da crença de que o esporte é a maior plataforma de engajamento do mundo — e que os negócios esportivos locais merecem o mesmo nível de estratégia de marca que clubes e marcas grandes já utilizam.",
+        "Antes da Playmaker, já construímos marca, comunidade e resultados reais em projetos como o GDO Fantasy Game, o CONJEF e o Sports Hub — transformando números pequenos em crescimento verdadeiro, sem depender do orçamento de um grande clube.",
+        "Hoje aplicamos essa mesma metodologia a academias, ginásios, arenas e negócios esportivos locais que estão prontos para crescer com posicionamento, não apenas com esforço.",
+      ],
+      features: [
+        "Formação em comunicações",
+        "Evento com casa cheia (CONJEF)",
+        "Diagnóstico personalizado",
+        "Suporte contínuo",
+      ],
+      cta: "INICIAR DIAGNÓSTICO",
+    },
+    booking: {
+      tag: "Vamos Jogar Juntos",
+      heading: ["AGENDE", "SUA 1ª REUNIÃO", "DE GRAÇA"],
+      headingHighlight: "DE GRAÇA",
+      sub: "Uma conversa de 40 minutos pode mudar completamente a trajetória da sua marca no esporte. Sem script de vendas, sem enrolação — só estratégia direto com quem vai cuidar do seu projeto.",
+      features: [
+        "40 minutos de diagnóstico gratuito",
+        "Reunião com nosso Head de Estratégia",
+        "Plano de ação personalizado ao final",
+        "Horários disponíveis de seg a sex, 7h–22h",
+      ],
+      form: {
+        name: "Nome *",
+        namePlaceholder: "Seu nome completo",
+        email: "E-mail *",
+        emailPlaceholder: "seu@email.com",
+        org: "Organização",
+        orgPlaceholder: "Nome da organização",
+        service: "Serviço de Interesse *",
+        servicePlaceholder: "Selecione um serviço",
+        serviceOptions: [
+          "Estratégia de Marca",
+          "Marketing Esportivo",
+          "Ativação de Eventos",
+          "Campanhas Digitais",
+          "Comunidade e Pertencimento",
+          "Produção de Conteúdo",
+        ],
+        date: "Data Preferida",
+        context: "Contexto do Projeto",
+        contextPlaceholder: "Descreva brevemente seu objetivo...",
+        submit: "Solicitar Reunião",
+        submitting: "Enviando...",
+        confirm: "Confirmaremos em até 12h no e-mail informado.",
+        success: "✓ Reunião agendada com sucesso! Confirmaremos em até 12h.",
+        error: "✗ Erro ao enviar. Tente novamente ou entre em contato por e-mail.",
+      },
+    },
+    faq: {
+      tag: "Dúvidas Frequentes",
+      heading: ["PERGUNTAS", "QUE TODO", "CLIENTE FAZ."],
+      sub: "Não encontrou o que procura? Fale direto com nossa equipe.",
+      cta: "TIRAR DÚVIDAS",
+      items: [
+        {
+          question: "A Playmaker trabalha com negócios esportivos pequenos e locais?",
+          answer: "Sim. Nosso foco principal é exatamente academias, ginásios, arenas e negócios esportivos locais — não apenas grandes clubes. Aplicamos a mesma metodologia de marca usada por organizações maiores, adaptada à realidade e ao orçamento de quem está construindo um negócio esportivo na sua região.",
+        },
+        {
+          question: "Como medir o retorno do marketing para minha academia ou ginásio?",
+          answer: "Acompanhamos indicadores como novos alunos, retenção, engajamento nas redes sociais e percepção de marca na região. Cada relatório mostra o que mudou desde o diagnóstico inicial — sem achismos, com dados que justificam cada ação.",
+        },
+        {
+          question: "Qual é o prazo mínimo de contrato com a Playmaker?",
+          answer: "Trabalhamos com ciclos mensais, sem fidelização longa obrigatória. O método é pensado para mostrar resultados e justificar a continuidade — não para prender o cliente em contrato.",
+        },
+        {
+          question: "A Playmaker atende fora do Rio de Janeiro?",
+          answer: "Sim. Atendemos negócios esportivos em todo o Brasil de forma remota. No Rio de Janeiro e região, também realizamos reuniões e visitas presenciais quando o projeto exige.",
+        },
+        {
+          question: "Preciso ter uma marca definida para contratar a Playmaker?",
+          answer: "Não. Boa parte dos nossos projetos começa exatamente nesse ponto — sem identidade clara ainda. O diagnóstico inicial serve para isso: entender onde seu negócio está hoje e construir o posicionamento do zero, se necessário.",
+        },
+      ],
+    },
+    footer: {
+      links: ["Serviços", "Sobre", "Contato", "FAQ"],
+      copy: "© 2026 PLAYMAKER. Todos os direitos reservados.",
+    },
+  },
   en: {
     nav: {
       services: "Services",
@@ -459,8 +680,8 @@ const translations = {
   },
 } as const;
 
-type Lang = keyof typeof translations;
-type T = typeof translations[Lang];
+type Lang = "en" | "pt" | "ptBR";
+type T = typeof translations["en"];
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const fadeInUp = {
@@ -970,18 +1191,29 @@ function Footer({ t }: { t: T }) {
 export default function App() {
   const heroRef = useRef<HTMLElement>(null);
   const [heroVisible, setHeroVisible] = useState(true);
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(() => {
+    // Default before geolocation resolves: use browser locale as best guess
+    const loc = navigator.language;
+    if (loc.startsWith("pt-PT")) return "pt";
+    if (loc.startsWith("pt")) return "ptBR";
+    return "en";
+  });
 
-  // Detect language by IP geolocation — PT → European Portuguese, everywhere else → English
+  // Detect language by IP geolocation:
+  // BR → Português BR | PT → Português PT | everywhere else → English
   useEffect(() => {
     fetch("https://ipapi.co/country/")
       .then((r) => r.text())
       .then((country) => {
-        if (country.trim() === "PT") setLang("pt");
+        const c = country.trim();
+        if (c === "PT") setLang("pt");
+        else if (c === "BR") setLang("ptBR");
       })
       .catch(() => {
-        // Fallback: use browser locale
-        if (navigator.language.startsWith("pt-PT")) setLang("pt");
+        // Fallback: browser locale
+        const loc = navigator.language;
+        if (loc.startsWith("pt-PT")) setLang("pt");
+        else if (loc.startsWith("pt")) setLang("ptBR");
       });
   }, []);
 
