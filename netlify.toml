@@ -1,0 +1,9 @@
+# Netlify build settings for the Next.js site.
+# These override the old Vite settings in the Netlify UI (build to "dist").
+# Netlify's Next.js runtime is detected and installed automatically.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
