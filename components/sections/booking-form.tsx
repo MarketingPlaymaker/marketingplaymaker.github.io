@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check, ChevronDown, LoaderCircle } from "lucide-react";
 import emailjs from "@emailjs/browser";
-import { EMAILJS, SERVICE_OPTIONS, validateBooking, type BookingErrors, type BookingRequest } from "@/lib/booking";
+import {
+  EMAILJS,
+  SELECT_SERVICE_EVENT,
+  SERVICE_OPTIONS,
+  validateBooking,
+  type BookingErrors,
+  type BookingRequest,
+} from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -54,6 +61,27 @@ function Field({
 export function BookingForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<BookingErrors>({});
+  const [service, setService] = useState("");
+  const [picked, setPicked] = useState(0); // bumps on each card click, replays the pulse
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  // A click on a service card preselects it here.
+  useEffect(() => {
+    const onSelect = (event: Event) => {
+      const value = (event as CustomEvent<string>).detail;
+      if (!SERVICE_OPTIONS.includes(value as (typeof SERVICE_OPTIONS)[number])) return;
+      setService(value);
+      setErrors((prev) => ({ ...prev, service: undefined }));
+      setStatus((prev) => (prev === "success" ? "idle" : prev));
+      setPicked((n) => n + 1);
+      // After the smooth scroll lands, put the cursor in the first field if it is still empty.
+      window.setTimeout(() => {
+        if (nameRef.current && !nameRef.current.value) nameRef.current.focus({ preventScroll: true });
+      }, 700);
+    };
+    window.addEventListener(SELECT_SERVICE_EVENT, onSelect);
+    return () => window.removeEventListener(SELECT_SERVICE_EVENT, onSelect);
+  }, []);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -122,6 +150,7 @@ export function BookingForm() {
             <div className="grid gap-6 sm:grid-cols-2">
               <Field id="name" label="Name" required error={errors.name}>
                 <input
+                  ref={nameRef}
                   id="name"
                   name="name"
                   autoComplete="name"
@@ -157,11 +186,19 @@ export function BookingForm() {
 
             <div className="grid gap-6 sm:grid-cols-2">
               <Field id="service" label="Service of interest" required error={errors.service}>
-                <div className="relative">
+                {/* Lime pulse when a service card preselects the value, so the change is noticed. */}
+                <motion.div
+                  key={picked}
+                  className="relative"
+                  initial={picked ? { boxShadow: "0 0 0 4px rgba(200,241,53,0.7)" } : false}
+                  animate={{ boxShadow: "0 0 0 0px rgba(200,241,53,0)" }}
+                  transition={{ duration: 1.4, ease: "easeOut", delay: 0.5 }}
+                >
                   <select
                     id="service"
                     name="service"
-                    defaultValue=""
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
                     aria-invalid={!!errors.service}
                     aria-describedby={describedBy("service")}
                     className={cn(field, border("service"), "appearance-none pr-12")}
@@ -178,7 +215,7 @@ export function BookingForm() {
                     aria-hidden
                     className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-fg-muted"
                   />
-                </div>
+                </motion.div>
               </Field>
               <Field id="date" label="Preferred date">
                 <input id="date" name="date" type="date" className={cn(field, "border-line")} />

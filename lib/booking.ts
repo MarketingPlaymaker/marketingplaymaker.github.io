@@ -11,6 +11,13 @@ export const EMAILJS = {
 
 export const CONTACT_EMAIL = "marketingplaymaker1@gmail.com";
 
+/** Fired when a service card is clicked; the booking form preselects that service. */
+export const SELECT_SERVICE_EVENT = "playmaker:select-service";
+
+export function selectService(service: string) {
+  window.dispatchEvent(new CustomEvent<string>(SELECT_SERVICE_EVENT, { detail: service }));
+}
+
 export const SERVICE_OPTIONS = [
   "Brand strategy",
   "Sports marketing",

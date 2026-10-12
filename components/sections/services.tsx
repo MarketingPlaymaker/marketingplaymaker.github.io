@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
+import { ServiceCardLink } from "./service-card-link";
 
 type Service = { num: string; title: string; desc: string; tags: string[]; image: string };
 
@@ -103,6 +104,7 @@ export function Services() {
           {/* Featured: the most chosen service. */}
           <StaggerItem lift className={cn(card, "min-h-[24rem] justify-end gap-4 p-7 sm:col-span-2 sm:p-10")}>
             <Backdrop src={FEATURED.image} sizes="(min-width: 1024px) 66vw, 100vw" scrim={scrimUp} />
+            <ServiceCardLink service={FEATURED.title} />
             <div className="flex items-center justify-between gap-4">
               <Num>{FEATURED.num}</Num>
               <span className="border border-brand px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-brand">
@@ -119,6 +121,7 @@ export function Services() {
           {SERVICES.map((s) => (
             <StaggerItem key={s.num} lift className={cn(card, "min-h-[24rem] justify-end gap-4 p-7 sm:p-8")}>
               <Backdrop src={s.image} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" scrim={scrimUp} />
+              <ServiceCardLink service={s.title} />
               <Num>{s.num}</Num>
               <h3 className="font-display text-[clamp(1.6rem,3vw,2.1rem)] uppercase leading-[1.02] text-fg">{s.title}</h3>
               <p className="text-base leading-relaxed text-fg-muted">{s.desc}</p>
@@ -139,6 +142,7 @@ export function Services() {
               sizes="100vw"
               scrim="bg-gradient-to-t from-ink-950 via-ink-950/75 to-ink-950/20 lg:bg-gradient-to-r lg:from-ink-950 lg:via-ink-950/70 lg:to-ink-950/10"
             />
+            <ServiceCardLink service={WIDE.title} />
             <div className="flex flex-col gap-4 lg:w-1/2">
               <Num>{WIDE.num}</Num>
               <h3 className="font-display text-[clamp(1.6rem,3vw,2.1rem)] uppercase leading-[1.02] text-fg">
