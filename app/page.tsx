@@ -1,4 +1,3 @@
-import { About } from "@/components/sections/about";
 import { Booking } from "@/components/sections/booking";
 import { ClientPains } from "@/components/sections/client-pains";
 import { Faq } from "@/components/sections/faq";
@@ -17,7 +16,6 @@ export default function Home() {
         <ClientPains />
         <Services />
         <WorkSteps />
-        <About />
         <Booking />
         <Faq />
       </main>

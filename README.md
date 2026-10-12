@@ -26,6 +26,17 @@ Requests are emailed through EmailJS (service, template and public key in
 `lib/booking.ts`). The template receives `user_name`, `user_email`,
 `organization`, `service`, `preferred_date` and `message`.
 
+## Photo credits
+
+Service card backgrounds in `public/services/` are from Unsplash (free under the
+Unsplash License):
+
+- Sports marketing: Meghan Holmes, https://unsplash.com/photos/buWcS7G1_28
+- Event activation: Howard Bouchevereau, https://unsplash.com/photos/yKHZ65nuEtE
+- Digital campaigns: Vitaly Gariev, https://unsplash.com/photos/cIps9jJaiVg
+- Community & belonging: Felipe Oliveira, https://unsplash.com/photos/Lwj0MkU40Hw
+- Content production: Norbert Braun, https://unsplash.com/photos/rbUmyKlVyZU
+
 ## Structure
 
 ```
