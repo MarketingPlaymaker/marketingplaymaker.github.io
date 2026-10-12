@@ -134,7 +134,7 @@ export function HorizonHero() {
   const sceneDim = useTransform(scrollYProgress, [0.65, 1], [1, 0.75]);
 
   return (
-    <section ref={sectionRef} aria-label="Introduction" className="relative h-[300dvh] bg-ink-950">
+    <section ref={sectionRef} aria-label="Introduction" className="relative h-[220dvh] bg-ink-950">
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
         {/* Poster: visible before WebGL is ready and when it is unavailable. */}
         <div

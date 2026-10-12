@@ -344,10 +344,10 @@ function createStadium(glowTexture: THREE.Texture) {
   ];
   for (const [bx, w, h] of blocks) group.add(box(w, h, 60, bx, h / 2, -900 - Math.random() * 80));
 
-  // Floodlight towers: dark poles, bright heads that bloom.
+  // Floodlight towers: dark poles, bright heads that bloom. Only the far pair:
+  // towers near the camera showed up as dark bars and clipped glow panels at the
+  // edges of wide screens.
   for (const [tx, tz] of [
-    [-450, -60],
-    [450, -60],
     [-450, -680],
     [450, -680],
   ]) {
@@ -524,7 +524,7 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
       // Phones and low-core devices get fewer stars, no bloom, 1x pixels.
       const lowPower =
         window.matchMedia("(max-width: 767px)").matches || (navigator.hardwareConcurrency ?? 8) <= 4;
-      const pixelRatio = Math.min(window.devicePixelRatio, lowPower ? 1 : 1.5);
+      const pixelRatio = Math.min(window.devicePixelRatio, lowPower ? 1 : 1.25);
 
       const gl = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, powerPreference: "high-performance" });
       renderer = gl;
@@ -564,6 +564,9 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
 
       const render = () => (composer ? composer.render() : gl.render(scene, camera));
 
+      // True once the scene runs as three still views instead of a live animation.
+      let stepped = false;
+
       const smoothPos = along(CAMERA_PATH, progress.get(), new THREE.Vector3());
       const smoothLook = along(LOOK_PATH, progress.get(), new THREE.Vector3());
       const target = new THREE.Vector3();
@@ -592,7 +595,7 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
         composer?.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        if (reducedMotion) render();
+        if (stepped) render();
       };
 
       resizeObserver = new ResizeObserver(resize);
@@ -605,10 +608,15 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
       await gl.compileAsync(scene, camera);
       if (disposed) return;
 
-      if (reducedMotion) {
-        // Reduced motion: no flying camera. The scene steps between three still
-        // views (outside the stadium, on the pitch, the court) in sync with the
-        // text panels, joined by a soft fade.
+      /*
+       * Stepped mode: no flying camera. The scene steps between three still
+       * views (outside the stadium, on the pitch, the court) in sync with the
+       * text panels, joined by a soft fade. It only renders when the view
+       * changes, so it is nearly free. Used for reduced motion, software
+       * rendering, and machines that cannot hold a smooth frame rate.
+       */
+      const startStations = () => {
+        stepped = true;
         const stationFor = (p: number) => (p < 0.28 ? 0 : p < 0.62 ? 1 : 2);
         const showStation = (s: number) => {
           smoothPos.copy(CAMERA_PATH[s]);
@@ -638,6 +646,17 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
           sync(); // catch up if the visitor kept scrolling during the fade
         };
         unsubscribe = progress.on("change", sync);
+      };
+
+      // Chrome without hardware acceleration renders WebGL on the CPU, where a
+      // live 3D scene drags the whole page down.
+      const ctx = gl.getContext();
+      const debugInfo = ctx.getExtension("WEBGL_debug_renderer_info");
+      const gpuName = debugInfo ? String(ctx.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)) : "";
+      const softwareGL = /swiftshader|llvmpipe|software|basic render/i.test(gpuName);
+
+      if (reducedMotion || softwareGL) {
+        startStations();
         return;
       }
 
@@ -645,15 +664,34 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
       const clock = new THREE.Clock();
       let readyFired = false;
 
+      // Frame-rate guard: if the median frame (after warm-up) is slower than
+      // ~22fps, drop to stepped mode so scrolling the page stays smooth.
+      const deltas: number[] = [];
+      let lastFrame = 0;
+
       const frame = () => {
         raf = requestAnimationFrame(frame);
+        const now = performance.now();
+        if (lastFrame && deltas.length < 80) deltas.push(now - lastFrame);
+        lastFrame = now;
+        if (deltas.length === 80) {
+          deltas.push(0); // run the check once
+          const recent = deltas.slice(20, 80).sort((a, b) => a - b);
+          if (recent[30] > 45) {
+            stop();
+            intersectionObserver?.disconnect();
+            startStations();
+            return;
+          }
+        }
+
         const t = clock.getElapsedTime();
         timeUniforms.forEach((u) => (u.value = t));
         nebulaUniforms.time.value = t * 0.5;
 
         const p = progress.get();
-        smoothPos.lerp(along(CAMERA_PATH, p, target), 0.06);
-        smoothLook.lerp(along(LOOK_PATH, p, target), 0.06);
+        smoothPos.lerp(along(CAMERA_PATH, p, target), 0.1);
+        smoothLook.lerp(along(LOOK_PATH, p, target), 0.1);
         placeCamera(t);
         applyScroll(p);
         render();
@@ -665,8 +703,10 @@ export function HorizonScene({ progress, reducedMotion, onReady, className }: Ho
       };
 
       intersectionObserver = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) stop();
-        else if (!raf && !disposed) raf = requestAnimationFrame(frame);
+        if (!entry.isIntersecting) {
+          stop();
+          lastFrame = 0; // a pause is not a slow frame
+        } else if (!raf && !disposed) raf = requestAnimationFrame(frame);
       });
       intersectionObserver.observe(host);
 
