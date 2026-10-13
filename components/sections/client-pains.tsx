@@ -1,5 +1,4 @@
 import { BarChart3, Copy, Palette, UserPlus, type LucideIcon } from "lucide-react";
-import { CtaLink } from "@/components/ui/cta-link";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 
 const PAINS: { icon: LucideIcon; title: string; desc: string }[] = [
@@ -56,14 +55,6 @@ export function ClientPains() {
             ))}
           </Stagger>
         </div>
-
-        <Reveal className="mt-14 flex flex-col items-start gap-6 border border-brand/30 bg-brand/5 p-7 sm:mt-20 sm:flex-row sm:items-center sm:justify-between sm:p-10">
-          <p className="max-w-2xl text-base leading-snug text-fg sm:text-xl">
-            <span className="font-semibold">This is exactly what Playmaker fixes.</span>{" "}
-            <span className="text-fg-muted">Our method turns these roadblocks into real competitive advantages.</span>
-          </p>
-          <CtaLink href="#book">Book a call</CtaLink>
-        </Reveal>
       </div>
     </section>
   );
