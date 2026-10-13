@@ -22,19 +22,34 @@ const pieces: Variants = {
   show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
 };
 
+// Full motion: each piece rises from below its own mask.
 const piece: Variants = {
   hidden: { y: "115%" },
   show: { y: "0%", transition: { duration: 0.95, ease: riseEase } },
 };
 
-const HOLD_MS = 650; // full logo on screen before the curtain lifts
-const CURTAIN_S = 1.1;
+// Reduced motion (e.g. Windows "Animation effects" off): no movement, the pieces
+// fade in one by one instead, paced so the logo is still clearly seen.
+const reducedPieces: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+};
 
-/** One masked piece of the logo: it rises from below its own clipping box. */
-function Piece({ children, className }: { children: React.ReactNode; className?: string }) {
+const reducedPiece: Variants = {
+  hidden: { y: "0%", opacity: 0 },
+  show: { y: "0%", opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+const HOLD_MS = 650; // full logo on screen before the curtain lifts
+const REDUCED_HOLD_MS = 950;
+const CURTAIN_S = 1.1;
+const REDUCED_FADE_S = 0.8;
+
+/** One masked piece of the logo. */
+function Piece({ children, className, variants }: { children: React.ReactNode; className?: string; variants: Variants }) {
   return (
     <span className={`inline-block overflow-hidden ${className ?? ""}`}>
-      <motion.span variants={piece} className="inline-block">
+      <motion.span variants={variants} className="inline-block">
         {children}
       </motion.span>
     </span>
@@ -82,7 +97,7 @@ export function IntroLoader() {
             : { clipPath: "inset(0% 0% 100% 0%)" }
           : { clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }
       }
-      transition={reduce ? { duration: 0.4 } : { duration: CURTAIN_S, ease: curtainEase }}
+      transition={reduce ? { duration: REDUCED_FADE_S, ease: "easeInOut" } : { duration: CURTAIN_S, ease: curtainEase }}
       onAnimationComplete={() => phase === "out" && setPhase("done")}
     >
       {/* Outer layer: lifts with the curtain. Inner layer: orchestrates the pieces
@@ -93,15 +108,15 @@ export function IntroLoader() {
         transition={{ duration: CURTAIN_S, ease: curtainEase }}
       >
         <motion.div
-          variants={pieces}
+          variants={reduce ? reducedPieces : pieces}
           initial="hidden"
           animate={fontReady ? "show" : "hidden"}
           onAnimationComplete={(definition) => {
-            if (definition === "show") window.setTimeout(() => setPhase("out"), reduce ? 150 : HOLD_MS);
+            if (definition === "show") window.setTimeout(() => setPhase("out"), reduce ? REDUCED_HOLD_MS : HOLD_MS);
           }}
           className="flex items-center gap-[0.18em]"
         >
-          <Piece className="pb-[0.04em]">
+          <Piece className="pb-[0.04em]" variants={reduce ? reducedPiece : piece}>
             {/* The white mark, turned black for the lime panel. */}
             <Image
               src="/brand/playmaker-mark.png"
@@ -114,7 +129,9 @@ export function IntroLoader() {
           </Piece>
           <span className="font-display uppercase leading-[0.86] tracking-[-0.01em]">
             {WORDMARK.map((letter, i) => (
-              <Piece key={i}>{letter}</Piece>
+              <Piece key={i} variants={reduce ? reducedPiece : piece}>
+                {letter}
+              </Piece>
             ))}
           </span>
         </motion.div>
