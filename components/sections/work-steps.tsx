@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { RefreshCw } from "lucide-react";
-import { CtaLink } from "@/components/ui/cta-link";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 
 const STEPS = [
@@ -34,7 +33,7 @@ export function WorkSteps() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-3xl">
           <h2 id="method" className="font-display text-[clamp(2.5rem,6vw,5rem)] uppercase leading-[0.92] text-fg">
-            How we <span className="text-brand">work.</span>
+            How we <span className="text-brand">play.</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg">
             The same process that turned 1,500 views into 275,000. Built on research and strategy. No guesswork.
@@ -90,10 +89,6 @@ export function WorkSteps() {
             ))}
           </Stagger>
         </div>
-
-        <Reveal className="mt-14 sm:mt-16">
-          <CtaLink href="#book">Book a call</CtaLink>
-        </Reveal>
       </div>
     </section>
   );
